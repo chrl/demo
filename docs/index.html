@@ -3,364 +3,276 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Train trip: Hamburg → Innsbruck</title>
-  <meta name="description" content="A lightweight landing page for a train trip from Hamburg to Innsbruck: route, highlights, packing checklist, and handy tips." />
+  <title>Hamburg → Innsbruck by train</title>
+  <meta name="description" content="Mobile-first landing page for a train trip from Hamburg to Innsbruck: route, timing, comfort tips, and a packing checklist." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg: #0b1020;
-      --card: rgba(255,255,255,0.06);
-      --card2: rgba(255,255,255,0.08);
-      --text: rgba(255,255,255,0.92);
-      --muted: rgba(255,255,255,0.68);
-      --line: rgba(255,255,255,0.12);
-      --accent: #77d1ff;
-      --accent2: #a8ffcf;
-      --warn: #ffd37a;
-      --shadow: 0 18px 60px rgba(0,0,0,0.45);
-      --radius: 18px;
+    :root{
+      --bg:#0b1020;
+      --text:rgba(255,255,255,.92);
+      --muted:rgba(255,255,255,.68);
+      --line:rgba(255,255,255,.12);
+      --card:rgba(255,255,255,.06);
+      --card2:rgba(255,255,255,.08);
+      --accent:#77d1ff;
+      --accent2:#a8ffcf;
+      --shadow:0 18px 60px rgba(0,0,0,.45);
+      --radius:18px;
     }
 
-    * { box-sizing: border-box; }
-
-    html, body {
-      height: 100%;
-      margin: 0;
-      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-      color: var(--text);
-      background: radial-gradient(1200px 700px at 20% 10%, rgba(119,209,255,0.28), transparent 60%),
-                  radial-gradient(1000px 600px at 85% 30%, rgba(168,255,207,0.18), transparent 55%),
-                  radial-gradient(900px 600px at 60% 100%, rgba(255,211,122,0.12), transparent 55%),
-                  var(--bg);
+    *{box-sizing:border-box;}
+    html,body{height:100%;}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+      color:var(--text);
+      background:
+        radial-gradient(900px 520px at 10% 0%, rgba(119,209,255,.22), transparent 60%),
+        radial-gradient(900px 520px at 100% 20%, rgba(168,255,207,.16), transparent 55%),
+        radial-gradient(900px 520px at 50% 110%, rgba(255,211,122,.10), transparent 55%),
+        var(--bg);
     }
 
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { text-decoration: underline; }
+    a{color:var(--accent);text-decoration:none;}
+    a:hover{text-decoration:underline;}
 
-    .wrap {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 28px 18px 64px;
+    .wrap{max-width:1080px;margin:0 auto;padding:18px 14px 56px;}
+
+    /* Mobile-first layout: single column by default */
+    header{display:grid;grid-template-columns:1fr;gap:12px;}
+
+    .hero{
+      border:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.04));
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:18px;
+      position:relative;
+      overflow:hidden;
     }
 
-    header {
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 18px;
-      align-items: stretch;
-      margin-top: 10px;
+    .hero:after{
+      content:"";
+      position:absolute;inset:-2px;
+      background:
+        radial-gradient(420px 220px at 15% 0%, rgba(119,209,255,.18), transparent 70%),
+        radial-gradient(380px 220px at 85% 10%, rgba(168,255,207,.12), transparent 70%);
+      pointer-events:none;
     }
 
-    @media (max-width: 900px) {
-      header { grid-template-columns: 1fr; }
+    .kicker{color:var(--muted);font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:12px;margin-bottom:8px;position:relative;z-index:1;}
+
+    h1{
+      margin:0 0 10px;
+      font-size:clamp(26px, 7vw, 40px);
+      line-height:1.08;
+      position:relative;z-index:1;
     }
 
-    .hero {
-      padding: 26px 26px 22px;
-      border: 1px solid var(--line);
-      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      overflow: hidden;
-      position: relative;
+    .sub{margin:0 0 12px;color:var(--muted);line-height:1.55;position:relative;z-index:1;}
+
+    .stats{display:grid;grid-template-columns:1fr;gap:10px;position:relative;z-index:1;}
+
+    .stat{padding:12px;border:1px solid var(--line);background:rgba(0,0,0,.16);border-radius:14px;}
+    .stat b{display:block;font-size:14px;margin-bottom:2px;}
+    .stat span{font-size:12px;color:var(--muted);}
+
+    .side{
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.05);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:16px;
     }
 
-    .hero::after {
-      content: "";
-      position: absolute;
-      inset: -2px;
-      background: radial-gradient(500px 240px at 20% 0%, rgba(119,209,255,0.18), transparent 70%),
-                  radial-gradient(380px 240px at 80% 10%, rgba(168,255,207,0.12), transparent 70%);
-      pointer-events: none;
+    .side h2{margin:0 0 10px;font-size:16px;}
+
+    .pill{
+      display:inline-flex;gap:8px;align-items:center;
+      padding:8px 10px;
+      border:1px solid var(--line);
+      background:rgba(0,0,0,.16);
+      border-radius:999px;
+      font-size:12px;color:var(--muted);
+      margin:6px 6px 0 0;
+      user-select:none;
     }
 
-    .kicker {
-      color: var(--muted);
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      font-size: 12px;
-      margin-bottom: 10px;
+    .cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px;}
+
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:8px;
+      padding:11px 12px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.06);
+      color:var(--text);
+      font-weight:700;
+      font-size:13px;
+      text-decoration:none;
+      min-height:44px; /* thumb-friendly */
     }
 
-    h1 {
-      font-size: clamp(30px, 4vw, 46px);
-      margin: 0 0 10px;
-      line-height: 1.08;
-      position: relative;
-      z-index: 1;
+    .btn.primary{
+      background:linear-gradient(135deg, rgba(119,209,255,.22), rgba(168,255,207,.16));
+      border-color:rgba(119,209,255,.35);
     }
 
-    .sub {
-      margin: 0 0 16px;
-      color: var(--muted);
-      line-height: 1.55;
-      position: relative;
-      z-index: 1;
+    .btn:active{transform:translateY(1px);}
+
+    main{margin-top:14px;display:grid;grid-template-columns:1fr;gap:12px;}
+
+    .card{
+      border:1px solid var(--line);
+      background:var(--card);
+      border-radius:var(--radius);
+      padding:16px;
     }
 
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      position: relative;
-      z-index: 1;
+    .card h2{margin:0 0 10px;font-size:17px;}
+    .card p{margin:0 0 10px;color:var(--muted);line-height:1.55;}
+
+    .list{margin:10px 0 0;padding:0;list-style:none;display:grid;gap:10px;}
+
+    .li{
+      display:grid;
+      grid-template-columns:16px 1fr;
+      gap:10px;
+      padding:12px;
+      border:1px solid var(--line);
+      border-radius:14px;
+      background:rgba(0,0,0,.14);
     }
 
-    @media (max-width: 520px) {
-      .stats { grid-template-columns: 1fr; }
+    .dot{
+      width:10px;height:10px;border-radius:999px;margin-top:4px;
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+      box-shadow:0 0 0 4px rgba(119,209,255,.10);
     }
 
-    .stat {
-      padding: 12px 12px;
-      border: 1px solid var(--line);
-      background: rgba(0,0,0,0.18);
-      border-radius: 14px;
-    }
-    .stat b { display: block; font-size: 14px; }
-    .stat span { color: var(--muted); font-size: 12px; }
+    .li b{display:block;font-size:14px;margin-bottom:4px;}
+    .li span{display:block;color:var(--muted);font-size:13px;line-height:1.45;}
 
-    .side {
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,0.05);
-      border-radius: var(--radius);
-      padding: 18px;
-      box-shadow: var(--shadow);
-    }
+    .split3{display:grid;grid-template-columns:1fr;gap:12px;}
 
-    .side h3 {
-      margin: 0 0 10px;
-      font-size: 16px;
+    .footer{margin-top:12px;color:var(--muted);font-size:12px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;}
+
+    /* Enhance on larger screens */
+    @media (min-width: 820px){
+      header{grid-template-columns:1.25fr .75fr;gap:14px;align-items:stretch;}
+      .stats{grid-template-columns:repeat(3,1fr);}
+      main{grid-template-columns:repeat(12,1fr);gap:14px;margin-top:18px;}
+      .card{grid-column:span 6;}
+      .card.wide{grid-column:span 12;}
+      .split3{grid-template-columns:repeat(3,1fr);}
     }
 
-    .pill {
-      display: inline-flex;
-      gap: 8px;
-      align-items: center;
-      padding: 8px 10px;
-      border: 1px solid var(--line);
-      background: rgba(0,0,0,0.18);
-      border-radius: 999px;
-      font-size: 12px;
-      color: var(--muted);
-      margin: 6px 6px 0 0;
-      user-select: none;
+    @media (prefers-reduced-motion: reduce){
+      .btn:active{transform:none;}
     }
-
-    .grid {
-      margin-top: 18px;
-      display: grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap: 14px;
-    }
-
-    .card {
-      grid-column: span 6;
-      border: 1px solid var(--line);
-      background: var(--card);
-      border-radius: var(--radius);
-      padding: 18px;
-    }
-
-    .card.wide { grid-column: span 12; }
-
-    @media (max-width: 900px) {
-      .card { grid-column: span 12; }
-    }
-
-    .card h2 {
-      margin: 0 0 10px;
-      font-size: 18px;
-    }
-
-    .card p { margin: 0 0 10px; color: var(--muted); line-height: 1.55; }
-
-    .list {
-      margin: 10px 0 0;
-      padding: 0;
-      list-style: none;
-      display: grid;
-      gap: 10px;
-    }
-
-    .li {
-      display: grid;
-      grid-template-columns: 18px 1fr;
-      gap: 10px;
-      padding: 12px;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      background: rgba(0,0,0,0.16);
-    }
-
-    .dot {
-      width: 10px;
-      height: 10px;
-      margin-top: 4px;
-      border-radius: 999px;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      box-shadow: 0 0 0 4px rgba(119,209,255,0.10);
-    }
-
-    .li b { display: block; font-size: 14px; margin-bottom: 4px; }
-    .li span { color: var(--muted); font-size: 13px; line-height: 1.45; }
-
-    .cta {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 14px;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 12px;
-      border-radius: 14px;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,0.06);
-      color: var(--text);
-      font-weight: 600;
-      font-size: 13px;
-      text-decoration: none;
-    }
-
-    .btn.primary {
-      background: linear-gradient(135deg, rgba(119,209,255,0.22), rgba(168,255,207,0.16));
-      border-color: rgba(119,209,255,0.35);
-    }
-
-    .btn:hover { filter: brightness(1.08); text-decoration: none; }
-
-    .footer {
-      margin-top: 18px;
-      color: var(--muted);
-      font-size: 12px;
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
   </style>
 </head>
 <body>
   <div class="wrap">
     <header>
       <section class="hero">
-        <div class="kicker">Landing page</div>
-        <h1>Train trip: Hamburg <span class="mono">→</span> Innsbruck</h1>
+        <div class="kicker">Train trip</div>
+        <h1>Hamburg <span class="mono">→</span> Innsbruck</h1>
         <p class="sub">
-          A relaxed, rail-first way to get from the Elbe to the Alps. 
-          Fast connections via Munich, scenic stretches, and a few practical tips so you arrive in Innsbruck ready for mountains—not paperwork.
+          City-center to city-center. Usually one easy change in Munich.
+          This page is tuned for phones: quick facts up top, details below.
         </p>
         <div class="stats" aria-label="Trip quick facts">
-          <div class="stat"><b>Typical duration</b><span>~8–10 h (1 transfer)</span></div>
-          <div class="stat"><b>Common transfer</b><span>Munich Hbf</span></div>
-          <div class="stat"><b>Arrival</b><span>Innsbruck Hbf (city center)</span></div>
+          <div class="stat"><b>Time</b><span>~8–10 h (often 1 transfer)</span></div>
+          <div class="stat"><b>Transfer</b><span>Usually München Hbf</span></div>
+          <div class="stat"><b>Arrival</b><span>Innsbruck Hbf (walkable)</span></div>
         </div>
       </section>
 
       <aside class="side">
-        <h3>Quick actions</h3>
-        <div class="pill">💡 Tip: book a seat on busy days</div>
-        <div class="pill">🔌 Power sockets are common on ICE/EC</div>
-        <div class="pill">🧳 Pack layers—Innsbruck gets chilly</div>
+        <h2>Book / check</h2>
+        <div class="pill">Seat reservation = sanity</div>
+        <div class="pill">Bring a cable + snack</div>
+        <div class="pill">Layers for the Alps</div>
         <div class="cta">
-          <a class="btn primary" href="https://int.bahn.de/en" target="_blank" rel="noopener">Search on DB (bahn.de)</a>
-          <a class="btn" href="https://www.oebb.at/en/" target="_blank" rel="noopener">ÖBB (Austria)</a>
-          <a class="btn" href="#checklist">Packing checklist</a>
+          <a class="btn primary" href="https://int.bahn.de/en" target="_blank" rel="noopener">DB: search trains</a>
+          <a class="btn" href="https://www.oebb.at/en/" target="_blank" rel="noopener">ÖBB: info</a>
+          <a class="btn" href="#checklist">Checklist</a>
         </div>
         <div class="footer">
-          <span>Good for: weekend trips, ski days, work travel</span>
-          <span class="mono" id="now"></span>
+          <span class="mono" id="today"></span>
+          <span>v2 (mobile-first)</span>
         </div>
       </aside>
     </header>
 
-    <main class="grid">
+    <main>
       <section class="card">
-        <h2>Suggested route</h2>
-        <p>Most convenient: <b>Hamburg Hbf → München Hbf → Innsbruck Hbf</b>.</p>
+        <h2>Route (simple)</h2>
+        <p><b>Hamburg Hbf → München Hbf → Innsbruck Hbf</b></p>
         <ul class="list">
-          <li class="li"><div class="dot"></div><div><b>Leg 1 — Hamburg → Munich</b><span>Typically ICE. Grab a window seat for the southern stretch; it gets greener as you go.</span></div></li>
-          <li class="li"><div class="dot"></div><div><b>Transfer — München Hbf</b><span>Plan 10–20 min buffer. Platforms can be busy; signs are good.</span></div></li>
-          <li class="li"><div class="dot"></div><div><b>Leg 2 — Munich → Innsbruck</b><span>EC/RJ/ICE depending on day. This is the “hello Alps” part.</span></div></li>
+          <li class="li"><div class="dot"></div><div><b>Leg 1: Hamburg → Munich</b><span>Usually ICE. Good time to work/read/sleep.</span></div></li>
+          <li class="li"><div class="dot"></div><div><b>Change in Munich</b><span>10–20 min buffer is comfortable.</span></div></li>
+          <li class="li"><div class="dot"></div><div><b>Leg 2: Munich → Innsbruck</b><span>EC/RJ/ICE depending on day. Mountains start showing up.</span></div></li>
         </ul>
       </section>
 
       <section class="card">
-        <h2>What makes this trip nice</h2>
+        <h2>Comfort tips</h2>
         <ul class="list">
-          <li class="li"><div class="dot"></div><div><b>City-center to city-center</b><span>No airport transfers. Innsbruck Hbf drops you right into town.</span></div></li>
-          <li class="li"><div class="dot"></div><div><b>Workable travel time</b><span>Wi‑Fi varies, but power sockets are common. Treat it as a moving office or a moving nap.</span></div></li>
-          <li class="li"><div class="dot"></div><div><b>Scenery upgrade</b><span>After Munich, mountains start showing up like they own the place.</span></div></li>
+          <li class="li"><div class="dot"></div><div><b>Reserve a seat on busy days</b><span>Fri/Sun + holidays can be packed.</span></div></li>
+          <li class="li"><div class="dot"></div><div><b>Quiet zone if you can</b><span>Less noise, more peace.</span></div></li>
+          <li class="li"><div class="dot"></div><div><b>Screenshot your ticket</b><span>Helps if reception is flaky.</span></div></li>
         </ul>
       </section>
 
       <section class="card wide" id="checklist">
         <h2>Packing checklist</h2>
-        <p>Optimized for train comfort + Innsbruck weather surprises.</p>
-        <div class="grid" style="margin-top: 10px; gap: 12px;">
-          <div class="card" style="grid-column: span 4; background: var(--card2);">
-            <h2 style="font-size:16px; margin-bottom:8px;">On the train</h2>
+        <p>Short, practical, and optimized for a phone screen.</p>
+
+        <div class="split3" style="margin-top:10px;">
+          <div class="card" style="background:var(--card2);">
+            <h2 style="font-size:16px;">Train</h2>
             <ul class="list">
-              <li class="li"><div class="dot"></div><div><b>Water + snacks</b><span>Restaurant cars exist, but your future self likes options.</span></div></li>
-              <li class="li"><div class="dot"></div><div><b>Headphones</b><span>For focus, podcasts, or ignoring the guy on a speaker call.</span></div></li>
-              <li class="li"><div class="dot"></div><div><b>Power bank + cable</b><span>Outlets are common, still: redundancy is classy.</span></div></li>
+              <li class="li"><div class="dot"></div><div><b>Water + snack</b><span>Restaurant car ≠ always available.</span></div></li>
+              <li class="li"><div class="dot"></div><div><b>Headphones</b><span>Music / calls / silence.</span></div></li>
+              <li class="li"><div class="dot"></div><div><b>Cable + power bank</b><span>Outlets exist, but don’t bet your day on them.</span></div></li>
             </ul>
           </div>
-          <div class="card" style="grid-column: span 4; background: var(--card2);">
-            <h2 style="font-size:16px; margin-bottom:8px;">In Innsbruck</h2>
+
+          <div class="card" style="background:var(--card2);">
+            <h2 style="font-size:16px;">Innsbruck</h2>
             <ul class="list">
-              <li class="li"><div class="dot"></div><div><b>Layering</b><span>Base layer + fleece + shell. Weather changes fast near mountains.</span></div></li>
-              <li class="li"><div class="dot"></div><div><b>Comfort shoes</b><span>Old town is walkable; mountains are… also walkable, but vertically.</span></div></li>
-              <li class="li"><div class="dot"></div><div><b>Sunglasses</b><span>Snow + sun can be brutal even when it’s cold.</span></div></li>
+              <li class="li"><div class="dot"></div><div><b>Layers</b><span>Base + warm mid-layer + shell.</span></div></li>
+              <li class="li"><div class="dot"></div><div><b>Comfort shoes</b><span>Old town + hills add up.</span></div></li>
+              <li class="li"><div class="dot"></div><div><b>Sunglasses</b><span>Snow + sun can be intense.</span></div></li>
             </ul>
           </div>
-          <div class="card" style="grid-column: span 4; background: var(--card2);">
-            <h2 style="font-size:16px; margin-bottom:8px;">Documents</h2>
+
+          <div class="card" style="background:var(--card2);">
+            <h2 style="font-size:16px;">Docs</h2>
             <ul class="list">
-              <li class="li"><div class="dot"></div><div><b>ID + ticket</b><span>Digital is fine, screenshot helps for spotty reception.</span></div></li>
-              <li class="li"><div class="dot"></div><div><b>Payment</b><span>Card works widely; carry a bit of cash for small things.</span></div></li>
-              <li class="li"><div class="dot"></div><div><b>Hotel details</b><span>Address + check‑in time (your tired brain will forget).</span></div></li>
+              <li class="li"><div class="dot"></div><div><b>ID</b><span>And any discount card if you used one.</span></div></li>
+              <li class="li"><div class="dot"></div><div><b>Payment</b><span>Card works; keep a bit of cash.</span></div></li>
+              <li class="li"><div class="dot"></div><div><b>Hotel address</b><span>Your tired brain will thank you.</span></div></li>
             </ul>
           </div>
         </div>
-      </section>
-
-      <section class="card">
-        <h2>Seat & comfort tips</h2>
-        <ul class="list">
-          <li class="li"><div class="dot"></div><div><b>Reserve a seat</b><span>Especially Fridays/Sundays and holiday periods.</span></div></li>
-          <li class="li"><div class="dot"></div><div><b>Pick a quiet-zone seat</b><span>If available—less “conference call at 120 dB”.</span></div></li>
-          <li class="li"><div class="dot"></div><div><b>Have a transfer plan</b><span>Know your next train number + platform if possible.</span></div></li>
-        </ul>
-      </section>
-
-      <section class="card">
-        <h2>Mini itinerary (arrival day)</h2>
-        <ul class="list">
-          <li class="li"><div class="dot"></div><div><b>Check in</b><span>Drop luggage, grab a quick coffee near Maria‑Theresien‑Straße.</span></div></li>
-          <li class="li"><div class="dot"></div><div><b>Old Town stroll</b><span>Golden Roof, Inn river, and the “wow, those mountains are real” moment.</span></div></li>
-          <li class="li"><div class="dot"></div><div><b>Nordkette option</b><span>If weather is good: cable car up for a panoramic sunset.</span></div></li>
-        </ul>
       </section>
 
       <section class="card wide">
-        <h2>Share / deploy</h2>
-        <p class="mono">This page is static (single HTML file). Perfect for GitHub Pages or any static host.</p>
-        <div class="cta">
-          <a class="btn" href="#" id="copyLink" role="button">Copy page URL (after upload)</a>
-          <a class="btn" href="mailto:?subject=Train%20trip%20Hamburg%20to%20Innsbruck&body=Landing%20page%3A%20" id="mail" >Email this (add link)</a>
-        </div>
+        <h2>Arrival mini-plan</h2>
+        <ul class="list">
+          <li class="li"><div class="dot"></div><div><b>Drop luggage</b><span>Then coffee near Maria‑Theresien‑Straße.</span></div></li>
+          <li class="li"><div class="dot"></div><div><b>Old Town stroll</b><span>Golden Roof + Inn river views.</span></div></li>
+          <li class="li"><div class="dot"></div><div><b>Nordkette (optional)</b><span>If the weather behaves: cable car for sunset.</span></div></li>
+        </ul>
         <div class="footer">
+          <span>Static HTML (easy to host)</span>
           <span>Made for Kirill</span>
-          <span>© <span id="year"></span></span>
         </div>
       </section>
     </main>
@@ -368,30 +280,8 @@
 
   <script>
     const d = new Date();
-    const pad = (n) => String(n).padStart(2, '0');
-    document.getElementById('year').textContent = String(d.getFullYear());
-    document.getElementById('now').textContent = `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
-
-    // Copy link helper (works once hosted)
-    const copyBtn = document.getElementById('copyLink');
-    copyBtn.addEventListener('click', async (e) => {
-      e.preventDefault();
-      const url = window.location.href;
-      try {
-        await navigator.clipboard.writeText(url);
-        copyBtn.textContent = 'Copied ✓';
-        setTimeout(() => (copyBtn.textContent = 'Copy page URL (after upload)'), 1400);
-      } catch {
-        // no-op
-        alert('Could not copy automatically. URL: ' + url);
-      }
-    });
-
-    const mail = document.getElementById('mail');
-    mail.addEventListener('click', () => {
-      const base = 'mailto:?subject=Train%20trip%20Hamburg%20to%20Innsbruck&body=';
-      mail.href = base + encodeURIComponent('Landing page: ' + window.location.href);
-    });
+    const pad = (n) => String(n).padStart(2,'0');
+    document.getElementById('today').textContent = `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
   </script>
 </body>
 </html>
