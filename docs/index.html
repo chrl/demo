@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
     :root{
-      --bg:#0b1020;
+      --bg:#070a12;
       --text:rgba(255,255,255,.92);
       --muted:rgba(255,255,255,.68);
       --line:rgba(255,255,255,.12);
@@ -24,15 +24,38 @@
 
     *{box-sizing:border-box;}
     html,body{height:100%;}
+
+    /*
+      Fix for iOS/Safari “banding / parallax-ish” feel:
+      - avoid huge radial-gradients on the BODY that can repaint oddly while scrolling
+      - render a fixed background layer via ::before
+      - keep body background solid
+    */
     body{
       margin:0;
       font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
       color:var(--text);
+      background:var(--bg);
+      overflow-x:hidden;
+    }
+
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      z-index:-1;
+      pointer-events:none;
+
+      /* smoother + less “layer seam” than multiple big radials */
       background:
-        radial-gradient(900px 520px at 10% 0%, rgba(119,209,255,.22), transparent 60%),
-        radial-gradient(900px 520px at 100% 20%, rgba(168,255,207,.16), transparent 55%),
-        radial-gradient(900px 520px at 50% 110%, rgba(255,211,122,.10), transparent 55%),
+        linear-gradient(180deg, rgba(119,209,255,.12) 0%, transparent 45%),
+        radial-gradient(700px 420px at 15% 12%, rgba(119,209,255,.18), transparent 60%),
+        radial-gradient(680px 420px at 85% 22%, rgba(168,255,207,.14), transparent 60%),
+        radial-gradient(760px 520px at 50% 110%, rgba(255,211,122,.08), transparent 62%),
         var(--bg);
+
+      transform: translateZ(0);
+      will-change: transform;
     }
 
     a{color:var(--accent);text-decoration:none;}
@@ -51,6 +74,7 @@
       padding:18px;
       position:relative;
       overflow:hidden;
+      isolation:isolate;
     }
 
     .hero:after{
@@ -60,20 +84,20 @@
         radial-gradient(420px 220px at 15% 0%, rgba(119,209,255,.18), transparent 70%),
         radial-gradient(380px 220px at 85% 10%, rgba(168,255,207,.12), transparent 70%);
       pointer-events:none;
+      z-index:-1;
     }
 
-    .kicker{color:var(--muted);font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:12px;margin-bottom:8px;position:relative;z-index:1;}
+    .kicker{color:var(--muted);font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:12px;margin-bottom:8px;}
 
     h1{
       margin:0 0 10px;
       font-size:clamp(26px, 7vw, 40px);
       line-height:1.08;
-      position:relative;z-index:1;
     }
 
-    .sub{margin:0 0 12px;color:var(--muted);line-height:1.55;position:relative;z-index:1;}
+    .sub{margin:0 0 12px;color:var(--muted);line-height:1.55;}
 
-    .stats{display:grid;grid-template-columns:1fr;gap:10px;position:relative;z-index:1;}
+    .stats{display:grid;grid-template-columns:1fr;gap:10px;}
 
     .stat{padding:12px;border:1px solid var(--line);background:rgba(0,0,0,.16);border-radius:14px;}
     .stat b{display:block;font-size:14px;margin-bottom:2px;}
@@ -129,6 +153,8 @@
       background:var(--card);
       border-radius:var(--radius);
       padding:16px;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
     }
 
     .card h2{margin:0 0 10px;font-size:17px;}
@@ -183,7 +209,7 @@
         <h1>Hamburg <span class="mono">→</span> Innsbruck</h1>
         <p class="sub">
           City-center to city-center. Usually one easy change in Munich.
-          This page is tuned for phones: quick facts up top, details below.
+          Now with a fixed background layer to avoid iOS scroll artifacts.
         </p>
         <div class="stats" aria-label="Trip quick facts">
           <div class="stat"><b>Time</b><span>~8–10 h (often 1 transfer)</span></div>
@@ -204,7 +230,7 @@
         </div>
         <div class="footer">
           <span class="mono" id="today"></span>
-          <span>v2 (mobile-first)</span>
+          <span>v3 (bg fix)</span>
         </div>
       </aside>
     </header>
